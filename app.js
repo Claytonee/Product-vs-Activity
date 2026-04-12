@@ -1,4 +1,4 @@
-const API_URL = "https://YOUR-VERCEL-URL/api/chat";
+const API_URL = "https://heygen-premium-access-tool.vercel.app/api/chat";
 
 const productWords = ['report', 'plan', 'dataset', 'summary', 'log', 'policy', 'guide', 'tool', 'record', 'certificate', 'evaluation', 'assessment', 'tracker', 'map', 'dashboard', 'register', 'audit', 'manual', 'checklist', 'protocol', 'indicator', 'brief', 'analysis', 'memo', 'schedule'];
 const activityWords = ['conduct', 'train', 'support', 'hold', 'visit', 'organize', 'attend', 'discuss', 'implement', 'monitor', 'prepare', 'meet', 'help', 'follow up', 'observe', 'present'];
