@@ -1,0 +1,390 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>SOP: Product vs Activity | Opportunity Education Tanzania</title>
+  <style>
+    :root {
+      --primary: #16416B;
+      --primary-light: #F0F0F0;
+      --accent: #FFAE00;
+      --danger: #CC143C;
+      --warning: #FFAE00;
+      --dark: #16416B;
+      --light: #F5F5F5;
+      --gray: #F0F0F0;
+      --cyan: #4489BB;
+      --white: #FFFFFF;
+      --black: #000000;
+      --radius: 12px;
+      --shadow: 0 4px 12px rgba(0,0,0,0.08);
+      --font-main: system-ui, -apple-system, sans-serif;
+    }
+
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+    body {
+      font-family: var(--font-main);
+      background: var(--light);
+      color: var(--dark);
+      line-height: 1.6;
+      padding: 20px;
+    }
+
+    .container {
+      max-width: 900px;
+      margin: 0 auto;
+      background: var(--white);
+      border-radius: var(--radius);
+      box-shadow: var(--shadow);
+      overflow: hidden;
+    }
+
+    header {
+      background: linear-gradient(135deg, var(--primary), var(--cyan));
+      color: var(--white);
+      padding: 32px 28px;
+      text-align: center;
+    }
+    header h1 { font-size: 2rem; margin-bottom: 8px; letter-spacing: 0.5px; }
+    header p { opacity: 0.9; font-size: 1.05rem; }
+
+    .badge {
+      display: inline-block;
+      background: rgba(255,255,255,0.2);
+      padding: 4px 10px;
+      border-radius: 20px;
+      font-size: 0.8rem;
+      margin-top: 8px;
+      backdrop-filter: blur(4px);
+    }
+
+    main { padding: 32px 28px; }
+    section { margin-bottom: 36px; }
+    h2 {
+      color: var(--primary);
+      border-bottom: 2px solid var(--primary-light);
+      padding-bottom: 8px;
+      margin-bottom: 18px;
+      font-size: 1.5rem;
+    }
+    h3 { margin: 16px 0 10px; color: var(--dark); }
+    p { margin-bottom: 12px; }
+
+    .card {
+      background: var(--light);
+      border-left: 4px solid var(--primary);
+      padding: 16px;
+      border-radius: 0 var(--radius) var(--radius) 0;
+      margin-bottom: 14px;
+      box-shadow: 0 2px 6px rgba(0,0,0,0.04);
+      transition: transform 0.2s;
+    }
+    .card:hover { transform: translateX(4px); }
+
+    .grid-2 { display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 16px; }
+    .grid-5 { display: grid; grid-template-columns: repeat(auto-fit, minmax(160px, 1fr)); gap: 12px; }
+
+    .criteria-box {
+      background: var(--white);
+      border: 2px solid var(--primary-light);
+      border-radius: var(--radius);
+      padding: 16px;
+      text-align: center;
+      transition: all 0.2s;
+    }
+    .criteria-box:hover { border-color: var(--primary); box-shadow: 0 4px 10px rgba(11,93,153,0.15); }
+    .criteria-box .num {
+      background: var(--primary);
+      color: #fff;
+      width: 28px; height: 28px;
+      border-radius: 50%;
+      display: inline-flex; align-items: center; justify-content: center;
+      font-weight: bold; margin-bottom: 8px;
+    }
+
+    .test-box {
+      background: linear-gradient(135deg, var(--light), var(--primary-light));
+      padding: 20px;
+      border-radius: var(--radius);
+      text-align: center;
+      margin: 20px 0;
+      border: 2px dashed var(--primary);
+    }
+    .test-box input {
+      padding: 10px; width: 80%; max-width: 300px;
+      border: 2px solid var(--gray); border-radius: 8px;
+      margin: 10px 0; font-size: 1rem;
+    }
+    .test-box button {
+      background: var(--accent); color: #fff; border: none; padding: 10px 20px;
+      border-radius: 8px; cursor: pointer; font-weight: bold; margin-left: 8px;
+      transition: background 0.2s;
+    }
+    .test-box button:hover { background: var(--danger); }
+    .feedback { margin-top: 12px; font-weight: bold; min-height: 24px; }
+
+    table { width: 100%; border-collapse: collapse; margin: 16px 0; background: var(--white); border-radius: var(--radius); overflow: hidden; }
+    th, td { padding: 12px 16px; text-align: left; border-bottom: 1px solid #e0e0e0; }
+    th { background: var(--primary); color: #fff; }
+    tr:hover { background: var(--primary-light); }
+
+    .format-box {
+      background: var(--primary); color: var(--white);
+      padding: 20px; border-radius: var(--radius);
+      font-family: 'Courier New', monospace; font-size: 1.05rem;
+      position: relative; margin: 16px 0;
+    }
+    .copy-btn {
+      position: absolute; top: 12px; right: 12px;
+      background: var(--gray); color: var(--black); border: none; padding: 6px 10px;
+      border-radius: 6px; cursor: pointer; font-size: 0.85rem;
+    }
+    .copy-btn:hover { background: var(--cyan); }
+
+    .talk-box {
+      background: var(--light); border-left: 5px solid var(--warning);
+      padding: 18px; border-radius: 0 var(--radius) var(--radius) 0;
+      font-style: italic; margin-top: 12px;
+    }
+
+    .quiz { background: var(--light); padding: 20px; border-radius: var(--radius); margin-top: 24px; }
+    .quiz label { display: block; margin: 10px 0; cursor: pointer; }
+    .quiz button {
+      background: var(--primary); color: #fff; border: none; padding: 10px 18px;
+      border-radius: 8px; cursor: pointer; margin-top: 12px;
+    }
+    .quiz .result { margin-top: 12px; font-weight: bold; }
+
+    footer {
+      background: var(--primary); color: var(--white); text-align: center; padding: 20px; font-size: 0.9rem;
+    }
+
+    details { margin-bottom: 14px; background: var(--light); border-radius: 8px; overflow: hidden; }
+    summary { padding: 14px; cursor: pointer; font-weight: 600; list-style: none; display: flex; justify-content: space-between; align-items: center; }
+    summary::after { content: '+'; font-size: 1.4rem; transition: transform 0.2s; }
+    details[open] summary::after { transform: rotate(45deg); }
+    details .content { padding: 0 16px 16px; }
+
+    @media (max-width: 600px) {
+      header h1 { font-size: 1.6rem; }
+      main { padding: 20px; }
+      .grid-5 { grid-template-columns: repeat(2, 1fr); }
+      .test-box input { width: 100%; margin-bottom: 10px; }
+    }
+  </style>
+</head>
+<body>
+
+<div class="container">
+  <header>
+    <h1>SOP: Product vs Activity</h1>
+    <p>Impact & Evaluation Tracking Framework</p>
+    <span class="badge">Prepared for Team Leaders | Opportunity Education Tanzania</span>
+  </header>
+
+  <main>
+    <section>
+      <h2> 1. Foundation: Clear Definitions</h2>
+      <div class="grid-2">
+        <div class="card" style="border-color: var(--accent);">
+          <h3>✅ Product / Indicator</h3>
+          <p><strong>What it is:</strong> A measurable, documented output or deliverable that results from completed work.</p>
+          <p><em>In simple terms:</em> "What is produced or achieved after the work is done."</p>
+          <small>✔ Reports, Tools, Datasets, Plans, Completed Logs</small>
+        </div>
+        <div class="card" style="border-color: var(--danger);">
+          <h3>❌ Activity</h3>
+          <p><strong>What it is:</strong> The action, process, or effort put into doing the work.</p>
+          <p><em>In simple terms:</em> "What you are doing, not what you have achieved."</p>
+          <small>❌ Training, Visits, Meetings, Support Sessions</small>
+        </div>
+      </div>
+    </section>
+
+    <section>
+      <h2>🧠 2. The 5 Core Criteria for a Valid Product</h2>
+      <p>A documented item qualifies as a <strong>Product/Indicator</strong> if it meets <strong>at least 4 out of 5</strong> of these rules:</p>
+      <div class="grid-5">
+        <div class="criteria-box"><div class="num">1</div><strong>Tangible</strong><br>Visible & deliverable</div>
+        <div class="criteria-box"><div class="num">2</div><strong>Measurable</strong><br>Can be counted/evaluated</div>
+        <div class="criteria-box"><div class="num">3</div><strong>Outcome-Based</strong><br>Shows results, not effort</div>
+        <div class="criteria-box"><div class="num">4</div><strong>Documented</strong><br>Stored in files/systems</div>
+        <div class="criteria-box"><div class="num">5</div><strong>Reviewable</strong><br>Understandable by others</div>
+      </div>
+    </section>
+
+    <section>
+      <h2>🔍 3. The Quick Evidence Test</h2>
+      <div class="test-box">
+        <p><strong>Ask yourself:</strong> <em>“Can I attach this as a file or show it as clear evidence?”</em></p>
+        <p>Type the phrase and the system will check it locally. If you have an external AI endpoint configured, use the AI button for a stronger answer.</p>
+        <input type="text" id="testInput" placeholder="e.g., School Visit Report">
+        <div style="display:flex; justify-content:center; gap:10px; flex-wrap:wrap; margin-top:12px;">
+          <button type="button" onclick="runLocalTest()">Local Check</button>
+          <button type="button" onclick="runAICheck()">Check with AI</button>
+        </div>
+        <div class="feedback" id="testFeedback"></div>
+        <div class="feedback" id="aiFeedback"></div>
+      </div>
+    </section>
+
+    <section>
+      <h2>🔄 4. The Conversion Formula</h2>
+      <p>Stop writing <em>actions</em>. Start documenting <em>outputs</em>.</p>
+      <div class="format-box">
+        <span class="copy-btn" onclick="copyFormat()">📋 Copy</span>
+        [Product Name] + (what was done + what is captured/documented)
+      </div>
+      <p><strong>Before (Activity):</strong> Conduct training for mentors</p>
+      <p><strong>After (Product):</strong> <em>Mentor Training Completion Report</em> (attendance, feedback & competency outcomes documented)</p>
+    </section>
+
+    <section>
+      <h2>🧪 5. Real Examples (Before → After)</h2>
+      <table>
+        <tr><th>❌ Activity</th><th>✅ Product (Track)</th></tr>
+        <tr><td>Visit schools for support</td><td><strong>School Support Visit Report</strong> (schools visited, observations & action points documented)</td></tr>
+        <tr><td>Conduct coaching sessions</td><td><strong>Coaching Sessions Report</strong> (sessions delivered, progress & next steps recorded)</td></tr>
+        <tr><td>Collect data from schools</td><td><strong>Compiled School Data Dataset</strong> (metrics collected, cleaned & validated)</td></tr>
+        <tr><td>Hold planning meetings</td><td><strong>Quarterly Implementation Plan</strong> (agreed actions, timelines & responsible teams documented)</td></tr>
+      </table>
+    </section>
+
+    <section>
+      <h2>⚠️ 6. Common Mistakes & How to Fix Them</h2>
+      <details>
+        <summary>❌ Mistake 1: Using Action Verbs as Outputs</summary>
+        <div class="content">
+          <p><strong>Wrong:</strong> Conduct, Train, Support, Hold, Visit</p>
+          <p><strong>Fix:</strong> Convert to nouns: <em>Report, Plan, Dataset, Summary, Log</em></p>
+        </div>
+      </details>
+      <details>
+        <summary>❌ Mistake 2: Vague or Unmeasurable Statements</summary>
+        <div class="content">
+          <p><strong>Wrong:</strong> “Progress made”, “Support given”, “Things improved”</p>
+          <p><strong>Fix:</strong> Attach numbers or deliverables: <em>“30% adoption rate”, “Validated dataset”, “Signed approval document”</em></p>
+        </div>
+      </details>
+      <details>
+        <summary>❌ Mistake 3: Mixing Products with Weekly Updates</summary>
+        <div class="content">
+          <p><strong>Rule:</strong> <em>Products</em> = Final outcomes. <em>Weekly Updates</em> = Activities & progress notes.</p>
+          <p>Never list an activity under the Product/Indicator column in your tracker.</p>
+        </div>
+      </details>
+    </section>
+
+    <section>
+      <h2>📊 7. Where Each Belong in Reporting</h2>
+      <table>
+        <tr><th>Section in Tracker</th><th>What Goes Here</th></tr>
+        <tr><td><strong>Product / Indicator Column</strong></td><td>Tangible outputs: Reports, Tools, Datasets, Approved Plans, Completed Logs</td></tr>
+        <tr><td><strong>Week 1–4 / Weekly Updates</strong></td><td>Activities: Trainings conducted, meetings held, visits made, support provided</td></tr>
+      </table>
+    </section>
+
+    <section>
+      <h2>🧾 8. Standard Writing Format</h2>
+      <p>All team members must use this exact structure when logging products:</p>
+      <div class="format-box">
+        <span class="copy-btn" onclick="copyStandard()">📋 Copy</span>
+        [Name of Product] (key detail of what is captured/measured)
+      </div>
+      <p><strong>Examples:</strong></p>
+      <ul style="margin-left: 20px;">
+        <li>School Assessment Dataset (data collected and validated)</li>
+        <li>Coaching Report (sessions and outcomes documented)</li>
+        <li>Adoption Summary Report (progress and key insights captured)</li>
+      </ul>
+    </section>
+
+    <section>
+      <h2>🎤 9. Leadership Script: </h2>
+      <div class="talk-box">
+        “Activities show effort, but products show results. We are tracking results. When you log work, always ask: <em>‘What did we actually produce, document, or measure?’</em> That is what counts toward our impact.”
+      </div>
+    </section>
+
+    <section class="quiz">
+      <h2>🧪 Quick Knowledge Check (For Leaders)</h2>
+      <form id="quizForm">
+        <p><strong>Q1.</strong> Which of the following is a valid Product?</p>
+        <label><input type="radio" name="q1" value="a"> Held mentorship meeting</label>
+        <label><input type="radio" name="q1" value="b"> Mentorship Engagement Summary (attendance & feedback captured)</label>
+        <label><input type="radio" name="q1" value="c"> Supported 12 schools</label>
+
+        <p><strong>Q2.</strong> How many of the 5 Core Criteria must a Product meet?</p>
+        <label><input type="radio" name="q2" value="a"> 2 out of 5</label>
+        <label><input type="radio" name="q2" value="b"> 3 out of 5</label>
+        <label><input type="radio" name="q2" value="c"> 4 out of 5</label>
+
+        <p><strong>Q3.</strong> “Conduct teacher training” should be logged in which tracker column?</p>
+        <label><input type="radio" name="q3" value="a"> Product / Indicator</label>
+        <label><input type="radio" name="q3" value="b"> Weekly Activity Updates</label>
+        <label><input type="radio" name="q3" value="c"> Financial Log</label>
+
+        <p><strong>Q4.</strong> Which phrase is most clearly an activity, not a product?</p>
+        <label><input type="radio" name="q4" value="a"> School Support Visit Report</label>
+        <label><input type="radio" name="q4" value="b"> Organize teacher coaching session</label>
+        <label><input type="radio" name="q4" value="c"> Data Validation Summary</label>
+
+        <p><strong>Q5.</strong> Which phrase is best written as a product?</p>
+        <label><input type="radio" name="q5" value="a"> Hold planning meeting</label>
+        <label><input type="radio" name="q5" value="b"> Training completion certificate</label>
+        <label><input type="radio" name="q5" value="c"> Support 15 schools</label>
+
+        <p><strong>Q6.</strong> A Product entry should be:</p>
+        <label><input type="radio" name="q6" value="a"> A deliverable that can be reviewed</label>
+        <label><input type="radio" name="q6" value="b"> A list of tasks done</label>
+        <label><input type="radio" name="q6" value="c"> A timetable of activities</label>
+
+        <p><strong>Q7.</strong> “Collected student attendance data” should be typed as:</p>
+        <label><input type="radio" name="q7" value="a"> Student Attendance Dataset</label>
+        <label><input type="radio" name="q7" value="b"> Student Attendance Activity Log</label>
+        <label><input type="radio" name="q7" value="c"> Attend to student records</label>
+
+        <p><strong>Q8.</strong> Which term is a strong product noun?</p>
+        <label><input type="radio" name="q8" value="a"> meeting</label>
+        <label><input type="radio" name="q8" value="b"> plan</label>
+        <label><input type="radio" name="q8" value="c"> visit</label>
+
+        <p><strong>Q9.</strong> A valid tracker Product must include:</p>
+        <label><input type="radio" name="q9" value="a"> effort hours only</label>
+        <label><input type="radio" name="q9" value="b"> what was produced and evidence captured</label>
+        <label><input type="radio" name="q9" value="c"> names of people contacted</label>
+
+        <p><strong>Q10.</strong> If you type “Mentorship Engagement Summary (attendance & feedback captured)”, the test should say:</p>
+        <label><input type="radio" name="q10" value="a"> Product</label>
+        <label><input type="radio" name="q10" value="b"> Activity</label>
+        <label><input type="radio" name="q10" value="c"> Unclear</label>
+
+        <button type="button" onclick="checkQuiz()">Check Answers</button>
+      </form>
+      <div class="result" id="quizResult"></div>
+    </section>
+  </main>
+
+  <section>
+    <h2>🔄 Activity to Product Converter</h2>
+    <div class="test-box">
+      <p><strong>Convert your activity into a proper product format:</strong></p>
+      <p>Type an activity phrase (e.g., "Conduct teacher training") and I & E Supervisor will suggest a product version.</p>
+      <input type="text" id="activityInput" placeholder="e.g., Conduct teacher training">
+      <div style="display:flex; justify-content:center; gap:10px; flex-wrap:wrap; margin-top:12px;">
+        <button type="button" onclick="convertActivityToProduct()">Convert</button>
+      </div>
+      <div class="feedback" id="convertFeedback"></div>
+    </div>
+  </section>
+
+  <footer>
+    <p>© 2026 Opportunity Education Tanzania | Monitoring, Evaluation & Learning Unit</p>
+    <p>Document Version: 2.0 | Last Updated: April 2026</p>
+  </footer>
+</div>
+
+<script src="app.js"></script>
+</body>
+</html>
