@@ -19,18 +19,18 @@ function runLocalTest() {
   const isActivity = matchesActivity.length > 0;
 
   if (isProduct && !isActivity) {
-    fb.textContent = `✅ Likely a PRODUCT. It includes ${matchesProduct.join(', ')}.`;
-    fb.style.color = '#27ae60';
+    fb.innerHTML = `✅ Likely a <span style="color: #27ae60; font-weight: bold;">PRODUCT</span>. It includes ${matchesProduct.join(', ')}.`;
+    fb.style.color = '#333';
   } else if (isProduct && isActivity) {
     fb.textContent = `⚠️ Mixed wording. Contains product terms (${matchesProduct.join(', ')}) and activity terms (${matchesActivity.join(', ')}). Make it a clear product title.`;
     fb.style.color = '#f39c12';
   } else if (isActivity) {
     if (val.match(/\d/)) {
-      fb.textContent = `⚠️ Quantified activity. "${val}" has numbers but describes an action. Convert to a product like "${val} Report" or "${val} Summary".`;
+      fb.innerHTML = `⚠️ Quantified <span style="color: #CC143C; font-weight: bold;">ACTIVITY</span>. "${val}" has numbers but describes an action. Convert to a product like "${val} Report" or "${val} Summary".`;
       fb.style.color = '#f39c12';
     } else {
-      fb.textContent = '❌ Sounds like an ACTIVITY. Convert it to a noun/output first.';
-      fb.style.color = '#CC143C';
+      fb.innerHTML = '❌ Sounds like an <span style="color: #CC143C; font-weight: bold;">ACTIVITY</span>. Convert it to a noun/output first.';
+      fb.style.color = '#333';
     }
   } else {
     fb.textContent = '⚠️ Unclear. Add a product noun (Report/Dataset/Plan/Summary) and specify what is captured.';
@@ -75,11 +75,15 @@ async function runAICheck() {
       throw new Error(result.error || 'Unable to classify message.');
     }
 
-    fb.textContent = `✅ ${result.reply}`;
+    let displayText = result.reply;
     if (result.reply.toLowerCase().includes('activity')) {
-      fb.style.color = '#CC143C';
+      displayText = result.reply.replace(/activity/gi, '<span style="color: #CC143C; font-weight: bold;">ACTIVITY</span>');
+      fb.innerHTML = `✅ ${displayText}`;
+      fb.style.color = '#333';
     } else {
-      fb.style.color = '#27ae60';
+      displayText = result.reply.replace(/product/gi, '<span style="color: #27ae60; font-weight: bold;">PRODUCT</span>');
+      fb.innerHTML = `✅ ${displayText}`;
+      fb.style.color = '#333';
     }
   } catch (error) {
     fb.textContent = `⚠️ AI check failed: ${error.message}`;
@@ -124,8 +128,8 @@ async function convertActivityToProduct() {
       throw new Error(result.error || 'Unable to convert message.');
     }
 
-    fb.textContent = `✅ Converted Product: ${result.reply}`;
-    fb.style.color = '#27ae60';
+    fb.innerHTML = `✅ Converted <span style="color: #27ae60; font-weight: bold;">PRODUCT</span>: ${result.reply}`;
+    fb.style.color = '#333';
   } catch (error) {
     fb.textContent = `⚠️ Conversion failed: ${error.message}`;
     fb.style.color = '#e74c3c';
