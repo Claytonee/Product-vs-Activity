@@ -6,6 +6,10 @@ const activityWords = ['conduct', 'train', 'support', 'hold', 'visit', 'organize
 function runLocalTest() {
   const val = document.getElementById('testInput').value.trim().toLowerCase();
   const fb = document.getElementById('testFeedback');
+  
+  // Clear all previous styles
+  fb.className = '';
+  fb.style.cssText = '';
 
   if (!val) {
     fb.textContent = 'Please type something to test.';
@@ -27,7 +31,7 @@ function runLocalTest() {
   } else if (isActivity) {
     if (val.match(/\d/)) {
       fb.innerHTML = `⚠️ Quantified <span style="color: #CC143C; font-weight: bold;">ACTIVITY</span>. "${val}" has numbers but describes an action. Convert to a product like "${val} Report" or "${val} Summary".`;
-      fb.style.color = '#f39c12';
+      fb.style.color = '#333';
     } else {
       fb.innerHTML = '❌ Sounds like an <span style="color: #CC143C; font-weight: bold;">ACTIVITY</span>. Convert it to a noun/output first.';
       fb.style.color = '#333';
@@ -41,6 +45,10 @@ function runLocalTest() {
 async function runAICheck() {
   const input = document.getElementById('testInput').value.trim();
   const fb = document.getElementById('aiFeedback');
+  
+  // Clear all previous styles
+  fb.className = '';
+  fb.style.cssText = '';
 
   if (!input) {
     fb.textContent = 'Please type something to test.';
@@ -75,13 +83,22 @@ async function runAICheck() {
       throw new Error(result.error || 'Unable to classify message.');
     }
 
+    // Determine classification
+    const isActivity = result.reply.toLowerCase().includes('activity') && !result.reply.toLowerCase().includes('not an activity');
+    const isProduct = result.reply.toLowerCase().includes('product') || (!isActivity && result.reply.toLowerCase().includes('this is a valid'));
+    
     let displayText = result.reply;
-    if (result.reply.toLowerCase().includes('activity')) {
-      displayText = result.reply.replace(/activity/gi, '<span style="color: #CC143C; font-weight: bold;">ACTIVITY</span>');
+    
+    // Color code keywords based on classification
+    if (isProduct) {
+      displayText = displayText.replace(/product/gi, '<span style="color: #27ae60; font-weight: bold;">PRODUCT</span>');
+      fb.innerHTML = `✅ ${displayText}`;
+      fb.style.color = '#333';
+    } else if (isActivity) {
+      displayText = displayText.replace(/activity/gi, '<span style="color: #CC143C; font-weight: bold;">ACTIVITY</span>');
       fb.innerHTML = `✅ ${displayText}`;
       fb.style.color = '#333';
     } else {
-      displayText = result.reply.replace(/product/gi, '<span style="color: #27ae60; font-weight: bold;">PRODUCT</span>');
       fb.innerHTML = `✅ ${displayText}`;
       fb.style.color = '#333';
     }
