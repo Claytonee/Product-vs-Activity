@@ -25,8 +25,13 @@ function runLocalTest() {
     fb.textContent = `⚠️ Mixed wording. Contains product terms (${matchesProduct.join(', ')}) and activity terms (${matchesActivity.join(', ')}). Make it a clear product title.`;
     fb.style.color = '#f39c12';
   } else if (isActivity) {
-    fb.textContent = '❌ Sounds like an ACTIVITY. Convert it to a noun/output first.';
-    fb.style.color = '#CC143C';
+    if (val.match(/\d/)) {
+      fb.textContent = `⚠️ Quantified activity. "${val}" has numbers but describes an action. Convert to a product like "${val} Report" or "${val} Summary".`;
+      fb.style.color = '#f39c12';
+    } else {
+      fb.textContent = '❌ Sounds like an ACTIVITY. Convert it to a noun/output first.';
+      fb.style.color = '#CC143C';
+    }
   } else {
     fb.textContent = '⚠️ Unclear. Add a product noun (Report/Dataset/Plan/Summary) and specify what is captured.';
     fb.style.color = '#f39c12';
