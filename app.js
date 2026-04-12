@@ -26,7 +26,7 @@ function runLocalTest() {
     fb.style.color = '#f39c12';
   } else if (isActivity) {
     fb.textContent = '❌ Sounds like an ACTIVITY. Convert it to a noun/output first.';
-    fb.style.color = '#e74c3c';
+    fb.style.color = '#CC143C';
   } else {
     fb.textContent = '⚠️ Unclear. Add a product noun (Report/Dataset/Plan/Summary) and specify what is captured.';
     fb.style.color = '#f39c12';
@@ -71,7 +71,11 @@ async function runAICheck() {
     }
 
     fb.textContent = `✅ ${result.reply}`;
-    fb.style.color = '#27ae60';
+    if (result.reply.toLowerCase().includes('activity')) {
+      fb.style.color = '#CC143C';
+    } else {
+      fb.style.color = '#27ae60';
+    }
   } catch (error) {
     fb.textContent = `⚠️ AI check failed: ${error.message}`;
     fb.style.color = '#e74c3c';
