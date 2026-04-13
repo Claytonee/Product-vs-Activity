@@ -1,4 +1,4 @@
-const API_URL = "https://heygen-premium-access-tool.vercel.app/api/chat";
+const API_URL = '/api/chat';
 
 const productWords = ['report', 'plan', 'dataset', 'summary', 'log', 'policy', 'guide', 'tool', 'record', 'certificate', 'evaluation', 'assessment', 'tracker', 'map', 'dashboard', 'register', 'audit', 'manual', 'checklist', 'protocol', 'indicator', 'brief', 'analysis', 'memo', 'schedule'];
 const activityWords = ['conduct', 'train', 'support', 'hold', 'visit', 'organize', 'attend', 'discuss', 'implement', 'monitor', 'prepare', 'meet', 'help', 'follow up', 'observe', 'present'];
@@ -98,10 +98,6 @@ async function runAICheck() {
       displayText = displayText.replace(/activity/gi, '<span style="color: #CC143C; font-weight: bold;">ACTIVITY</span>');
       fb.innerHTML = `✅ ${displayText}`;
       fb.style.color = '#CC143C'; // Red for ACTIVITY
-    } else {
-      fb.innerHTML = `✅ ${displayText}`;
-      fb.style.color = '#333';
-    }
     } else {
       fb.innerHTML = `✅ ${displayText}`;
       fb.style.color = '#333';
