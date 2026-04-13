@@ -86,7 +86,10 @@ Activity: "${message}"`;
 
     return res.status(200).json({ reply });
   } catch (error) {
-    console.error('API handler error:', error);
-    return res.status(500).json({ error: error?.message || 'Internal server error' });
+    console.error('API handler error:', error?.stack || error);
+    return res.status(500).json({
+      error: error?.message || String(error) || 'Internal server error',
+      stack: process.env.NODE_ENV !== 'production' ? error?.stack : undefined
+    });
   }
 }
