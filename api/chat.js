@@ -30,7 +30,26 @@ module.exports = async function handler(req, res) {
     if (mode === 'classify') {
       prompt = `You are an M&E specialist. Classify the following phrase strictly as PRODUCT or ACTIVITY. Answer with a single label and a short explanation.\n\nPhrase: "${message}"`;
     } else if (mode === 'convert') {
-      prompt = `You are an M&E specialist. Convert the following activity into a proper product phrase using the format: [Product Name] (key detail of what is captured/measured). Do not include any extra text.\n\nActivity: "${message}"`;
+      prompt = `You are an M&E specialist. Convert this ACTIVITY into a PRODUCT phrase.
+
+CRITICAL: A PRODUCT must be a NOUN-based deliverable (Report, Dataset, Plan, Summary, Log, etc.)
+NEVER return a verb-based activity (Visit, Conduct, Train, Hold, etc.)
+
+Format: [Product Name] (what is documented/measured)
+
+Examples with numbers:
+- "3 schools visited" → "School Visit Report (3 schools visited, observations documented)"
+- "12 teachers trained" → "Teacher Training Report (12 teachers trained, competencies assessed)"
+- "5 meetings held" → "Meeting Summary Report (5 meetings held, decisions documented)"
+
+More examples:
+- "Conduct teacher training" → "Teacher Training Completion Report (attendance, feedback & outcomes documented)"
+- "Visit schools for support" → "School Support Visit Report (schools visited, observations & action points documented)"
+- "Collect data from schools" → "Compiled School Data Dataset (metrics collected, cleaned & validated)"
+
+Return ONLY the product phrase. No explanations.
+
+Activity: "${message}"`;
     }
 
     const response = await fetch('https://api.groq.com/openai/v1/chat/completions', {
