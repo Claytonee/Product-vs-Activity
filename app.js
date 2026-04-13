@@ -89,15 +89,19 @@ async function runAICheck() {
     
     let displayText = result.reply;
     
-    // Color code keywords based on classification
+    // Color the entire response based on classification
     if (isProduct) {
       displayText = displayText.replace(/product/gi, '<span style="color: #27ae60; font-weight: bold;">PRODUCT</span>');
       fb.innerHTML = `✅ ${displayText}`;
-      fb.style.color = '#333';
+      fb.style.color = '#27ae60'; // Green for PRODUCT
     } else if (isActivity) {
       displayText = displayText.replace(/activity/gi, '<span style="color: #CC143C; font-weight: bold;">ACTIVITY</span>');
       fb.innerHTML = `✅ ${displayText}`;
+      fb.style.color = '#CC143C'; // Red for ACTIVITY
+    } else {
+      fb.innerHTML = `✅ ${displayText}`;
       fb.style.color = '#333';
+    }
     } else {
       fb.innerHTML = `✅ ${displayText}`;
       fb.style.color = '#333';
