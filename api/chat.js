@@ -30,19 +30,24 @@ module.exports = async function handler(req, res) {
     if (mode === 'classify') {
       prompt = `You are an M&E specialist. Classify the following phrase strictly as PRODUCT or ACTIVITY. Answer with a single label and a short explanation.\n\nPhrase: "${message}"`;
     } else if (mode === 'convert') {
-      prompt = `You are an M&E specialist in impact evaluation. Convert the following ACTIVITY into a proper PRODUCT phrase.
+      prompt = `You are an M&E specialist. Convert this ACTIVITY into a PRODUCT phrase.
 
-A PRODUCT is a measurable, documented output or deliverable (e.g., Report, Dataset, Plan, Summary).
-An ACTIVITY is an action or process (e.g., Conduct, Train, Visit, Hold).
+CRITICAL: A PRODUCT must be a NOUN-based deliverable (Report, Dataset, Plan, Summary, Log, etc.)
+NEVER return a verb-based activity (Visit, Conduct, Train, Hold, etc.)
 
-Use EXACTLY this format: [Product Name] (key detail of what is captured/measured)
+Format: [Product Name] (what is documented/measured)
 
-Examples:
-- Activity: "Conduct teacher training" → Product: "Teacher Training Completion Report (attendance, feedback & competency outcomes documented)"
-- Activity: "Visit schools for support" → Product: "School Support Visit Report (schools visited, observations & action points documented)"
-- Activity: "Collect data from schools" → Product: "Compiled School Data Dataset (metrics collected, cleaned & validated)"
+Examples with numbers:
+- "3 schools visited" → "School Visit Report (3 schools visited, observations documented)"
+- "12 teachers trained" → "Teacher Training Report (12 teachers trained, competencies assessed)"
+- "5 meetings held" → "Meeting Summary Report (5 meetings held, decisions documented)"
 
-Do NOT return an activity. Always return a product in the exact format. No extra text.
+More examples:
+- "Conduct teacher training" → "Teacher Training Completion Report (attendance, feedback & outcomes documented)"
+- "Visit schools for support" → "School Support Visit Report (schools visited, observations & action points documented)"
+- "Collect data from schools" → "Compiled School Data Dataset (metrics collected, cleaned & validated)"
+
+Return ONLY the product phrase. No explanations.
 
 Activity: "${message}"`;
     }
