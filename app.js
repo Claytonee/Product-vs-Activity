@@ -77,10 +77,16 @@ async function runAICheck() {
       })
     });
 
-    const result = await response.json();
+    const raw = await response.text();
+    let result;
+    try {
+      result = JSON.parse(raw);
+    } catch (e) {
+      throw new Error(`Invalid JSON from API: ${raw.slice(0, 200)}`);
+    }
 
     if (!response.ok) {
-      throw new Error(result.error || 'Unable to classify message.');
+      throw new Error(result.error || `Unable to classify message. Status ${response.status}`);
     }
 
     // Determine classification
@@ -139,10 +145,16 @@ async function convertActivityToProduct() {
       })
     });
 
-    const result = await response.json();
+    const raw = await response.text();
+    let result;
+    try {
+      result = JSON.parse(raw);
+    } catch (e) {
+      throw new Error(`Invalid JSON from API: ${raw.slice(0, 200)}`);
+    }
 
     if (!response.ok) {
-      throw new Error(result.error || 'Unable to convert message.');
+      throw new Error(result.error || `Unable to convert message. Status ${response.status}`);
     }
 
     fb.innerHTML = `✅ Converted <span style="color: #27ae60; font-weight: bold;">PRODUCT</span>: ${result.reply}`;

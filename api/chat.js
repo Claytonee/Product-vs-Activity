@@ -66,21 +66,27 @@ Activity: "${message}"`;
       })
     });
 
-    const json = await response.json();
+    const raw = await response.text();
+    let json;
+    try {
+      json = JSON.parse(raw);
+    } catch (parseError) {
+      return res.status(502).json({ error: 'Invalid JSON from Groq API', details: raw.slice(0, 200) });
+    }
 
     if (!response.ok) {
       const errorMessage = json.error?.message || response.statusText || 'Unknown API error';
-      return res.status(502).json({ error: `Groq API error: ${errorMessage}` });
+      return res.status(502).json({ error: `Groq API error: ${errorMessage}`, details: json });
     }
 
     const reply = json.choices?.[0]?.message?.content?.trim();
     if (!reply) {
-      return res.status(502).json({ error: 'Invalid response format from AI provider.' });
+      return res.status(502).json({ error: 'Invalid response format from AI provider.', details: json });
     }
 
     return res.status(200).json({ reply });
   } catch (error) {
     console.error('API handler error:', error);
-    return res.status(500).json({ error: 'Internal server error' });
+    return res.status(500).json({ error: error?.message || 'Internal server error' });
   }
 }
