@@ -30,7 +30,21 @@ module.exports = async function handler(req, res) {
     if (mode === 'classify') {
       prompt = `You are an M&E specialist. Classify the following phrase strictly as PRODUCT or ACTIVITY. Answer with a single label and a short explanation.\n\nPhrase: "${message}"`;
     } else if (mode === 'convert') {
-      prompt = `You are an M&E specialist. Convert the following activity into a proper product phrase using the format: [Product Name] (key detail of what is captured/measured). Do not include any extra text.\n\nActivity: "${message}"`;
+      prompt = `You are an M&E specialist in impact evaluation. Convert the following ACTIVITY into a proper PRODUCT phrase.
+
+A PRODUCT is a measurable, documented output or deliverable (e.g., Report, Dataset, Plan, Summary).
+An ACTIVITY is an action or process (e.g., Conduct, Train, Visit, Hold).
+
+Use EXACTLY this format: [Product Name] (key detail of what is captured/measured)
+
+Examples:
+- Activity: "Conduct teacher training" → Product: "Teacher Training Completion Report (attendance, feedback & competency outcomes documented)"
+- Activity: "Visit schools for support" → Product: "School Support Visit Report (schools visited, observations & action points documented)"
+- Activity: "Collect data from schools" → Product: "Compiled School Data Dataset (metrics collected, cleaned & validated)"
+
+Do NOT return an activity. Always return a product in the exact format. No extra text.
+
+Activity: "${message}"`;
     }
 
     const response = await fetch('https://api.groq.com/openai/v1/chat/completions', {
